@@ -143,7 +143,7 @@ const createConversation = async (data) => {
       userLabelIn,
       customParticipantPayload
     );
-    if (!updateParticipant) customError("User not updated", 500);
+    if (!updatedParticipant) customError("User not updated", 500);
 
     // response back
     return {

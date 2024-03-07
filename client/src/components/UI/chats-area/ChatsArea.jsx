@@ -1,4 +1,5 @@
 // external imports
+import { useEffect, useRef } from "react";
 import { useStoreState } from "easy-peasy";
 import { Box, Toolbar } from "@mui/material";
 
@@ -7,6 +8,7 @@ import MessageBox from "../msg-box/MessageBox";
 import ConversationImg from "../../../assets/images/conversation.png";
 
 const ChatsArea = ({ drawerWidth }) => {
+  const scrollToBottomRef = useRef(null);
   const selfId = JSON.parse(localStorage.getItem("localUser"))?.userId;
   const curUser = useStoreState((state) => state.currentChat.currChat);
   const curMessages = useStoreState(
@@ -14,6 +16,12 @@ const ChatsArea = ({ drawerWidth }) => {
   );
 
   const isConversationStart = curUser.isConversationStart;
+
+  useEffect(() => {
+    if (scrollToBottomRef.current) {
+      scrollToBottomRef.current.scrollIntoView();
+    }
+  }, [curMessages]);
   return (
     <>
       <Box
@@ -51,7 +59,7 @@ const ChatsArea = ({ drawerWidth }) => {
             />
           </>
         )}
-
+        <div ref={scrollToBottomRef}></div>
         <Toolbar />
       </Box>
     </>
